@@ -35,10 +35,10 @@
 #include "CDMInstance.h"
 #include "Document.h"
 #include "EventNames.h"
-#include "MediaKeys.h"
 #include "MediaKeyMessageEvent.h"
 #include "MediaKeyMessageType.h"
 #include "MediaKeyStatusMap.h"
+#include "MediaKeys.h"
 #include "NotImplemented.h"
 #include "SecurityOrigin.h"
 #include "SharedBuffer.h"
@@ -471,9 +471,8 @@ void MediaKeySession::update(const BufferSource& response, Ref<DeferredPromise>&
                 }
 #if USE(OPENCDM)
                 CDMInstance::KeyStatusVector&& keyStatuses = WTFMove(*changedKeys);
-                if (!message && (keyStatuses[0].second == CDMInstance::KeyStatus::Usable)) {
+                if (!message && (keyStatuses[0].second == CDMInstance::KeyStatus::Usable))
                     m_keys->decryptWithSession(m_sessionId);
-                }
 #endif
                 // 6.8.2. Resolve promise.
                 promise->resolve();

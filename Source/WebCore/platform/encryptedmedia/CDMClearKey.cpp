@@ -4,8 +4,8 @@
 #if ENABLE(ENCRYPTED_MEDIA)
 
 #include "CDMPrivate.h"
-#include "inspector/InspectorValues.h"
 #include "MediaKeysRequirement.h"
+#include "inspector/InspectorValues.h"
 #include <wtf/UUID.h>
 #include <wtf/text/Base64.h>
 
@@ -225,7 +225,7 @@ void CDMInstanceClearKey::updateLicense(const String& sessionId, LicenseType, co
                 if (!WTF::base64URLDecode(keyValue, { keyValueData }))
                     return false;
 
-                updatedKeys.append(Key{ keyID, KeyStatus::Usable, SharedBuffer::create(WTFMove(keyIDData)), SharedBuffer::create(WTFMove(keyValueData)) });
+                updatedKeys.append(Key { keyID, KeyStatus::Usable, SharedBuffer::create(WTFMove(keyIDData)), SharedBuffer::create(WTFMove(keyValueData)) });
             }
 
             return true;
@@ -242,7 +242,7 @@ void CDMInstanceClearKey::updateLicense(const String& sessionId, LicenseType, co
     // FIXME: Check that session type is valid.
 #endif
 
-    auto& keyVector = m_keys.ensure(sessionId, [] { return Vector<Key>{ }; }).iterator->value;
+    auto& keyVector = m_keys.ensure(sessionId, [] { return Vector<Key> { }; }).iterator->value;
 
     bool keysChanged = false;
     for (auto& key : updatedKeys) {
@@ -267,11 +267,10 @@ void CDMInstanceClearKey::updateLicense(const String& sessionId, LicenseType, co
         Vector<std::pair<RefPtr<SharedBuffer>, KeyStatus>> keys;
         keys.reserveInitialCapacity(keyVector.size());
         for (auto& it : keyVector)
-            keys.uncheckedAppend(std::pair<RefPtr<SharedBuffer>, KeyStatus>{ it.keyIDData, it.status });
+            keys.uncheckedAppend(std::pair<RefPtr<SharedBuffer>, KeyStatus> { it.keyIDData, it.status });
 
         std::sort(keys.begin(), keys.end(),
-            [] (const auto& a, const auto& b)
-            {
+            [] (const auto& a, const auto& b) {
                 if (a.first->size() != b.first->size())
                     return a.first->size() < b.first->size();
 
@@ -282,7 +281,7 @@ void CDMInstanceClearKey::updateLicense(const String& sessionId, LicenseType, co
         KeyStatusVector keyStatusVector;
         keyStatusVector.reserveInitialCapacity(keys.size());
         for (auto& it : keys)
-            keyStatusVector.uncheckedAppend(std::pair<Ref<SharedBuffer>, KeyStatus>{ *it.first, it.second });
+            keyStatusVector.uncheckedAppend(std::pair<Ref<SharedBuffer>, KeyStatus> { *it.first, it.second });
 
         changedKeys = WTFMove(keyStatusVector);
     }

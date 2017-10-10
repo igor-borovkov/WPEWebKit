@@ -26,7 +26,6 @@
 #include "config.h"
 
 #if ENABLE(LEGACY_ENCRYPTED_MEDIA)
-
 #include "LegacyCDM.h"
 
 #include "LegacyCDMPrivateClearKey.h"
